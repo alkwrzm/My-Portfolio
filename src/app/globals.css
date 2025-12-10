@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --color-primary: #00FFC2;
+}
+
+body {
+  @apply bg-slate-950 text-slate-50 antialiased;
+}
+
