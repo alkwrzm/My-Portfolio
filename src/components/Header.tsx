@@ -34,7 +34,7 @@ export default function Header() {
         >
             <div className="container mx-auto px-6 flex items-center justify-between">
                 <Link href="/" className="text-xl font-bold text-slate-50">
-                    AI<span className="text-primary">.PM</span>
+                    Al<span className="text-primary">.Portfolio</span>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -54,7 +54,7 @@ export default function Header() {
                             href="/#contact"
                             className="px-5 py-2 rounded-full bg-primary/10 text-primary font-medium hover:bg-primary hover:text-slate-950 transition-all"
                         >
-                            Hire Me
+                            Hire Me!
                         </Link>
                     </div>
                 </nav>

@@ -42,13 +42,15 @@ export default function Hero() {
                 {/* Image Content */}
                 <div className="relative order-1 md:order-2 flex justify-center">
                     <MotionWrapper delay={0.2}>
-                        <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-slate-800 shadow-2xl bg-slate-900">
-                            {/* Using standard img tag per previous implementation */}
+                        <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-slate-800 shadow-2xl bg-slate-900 hover:border-primary/50 transition-all duration-300 group">
+                            {/* Using standard img tag for the profile photo */}
                             <img
-                                src="/images/portrait.png"
-                                alt="Profile"
-                                className="w-full h-full object-cover"
+                                src="/images/profile-photo.png"
+                                alt="Mohammed Al Kwarizmi - Product Manager"
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
+                            {/* Overlay gradient on hover */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
                     </MotionWrapper>
                 </div>

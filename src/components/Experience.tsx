@@ -4,43 +4,58 @@ import { motion } from "framer-motion";
 import MotionWrapper from "@/components/MotionWrapper";
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import Image from "next/image";
 
 const experiences = [
     {
         id: 1,
-        title: "Senior Product Manager",
-        company: "Tech Corp",
-        period: "2023 - Present",
+        title: "Product Manager",
+        company: "Caliana Indonesia",
+        period: "Mar. 2024 - Present",
         description: "Leading the AI product vertical, managing a team of 10 engineers and 3 designers. Launched 3 major AI features accumulating $2M ARR.",
+        logo: "/images/company-logos/caliana.png",
     },
     {
         id: 2,
-        title: "Product Owner",
-        company: "Startup Inc",
-        period: "2021 - 2023",
+        title: "Associate Product Owner",
+        company: "Cermati Fintech Group",
+        period: "Mei 2023 - Jan. 2024",
         description: "Owned the roadmap for the core SaaS platform. Increased user retention by 25% through data-driven UX improvements.",
+        logo: "/images/company-logos/cermati.png",
     },
     {
         id: 3,
-        title: "Junior PM",
-        company: "Innovation Labs",
-        period: "2019 - 2021",
+        title: "Associate Product Manager",
+        company: "Alodokter",
+        period: "Mar. 2022 - Mei 2023",
         description: "Assisted in product discovery and market research. Facilitated sprint planning and backlog grooming.",
+        logo: "/images/company-logos/alodokter.png",
     },
     {
         id: 4,
-        title: "UX Researcher",
-        company: "Creative Design Studio",
+        title: "Product Manager Intern",
+        company: "Bhinneka.com",
         period: "2018 - 2019",
         description: "Conducted user interviews and usability testing for various client projects. Created user personas and journey maps.",
+        logo: "/images/company-logos/bhinneka.png",
     },
     {
         id: 5,
-        title: "Software Engineer Intern",
-        company: "Big Tech Co",
+        title: "Project Manager",
+        company: "RISTEK Fasilkom UI",
+        period: "2021 - 2022",
+        description: "Developed internal tools using React and Node.js. Collaborated with senior engineers on system architecture.",
+        logo: "/images/company-logos/ristek.png",
+    },
+    {
+        id: 6,
+        title: "Data Analyst Intern",
+        company: "Diarium Indonesia (AMOEBA Telkom)",
         period: "2017 - 2018",
         description: "Developed internal tools using React and Node.js. Collaborated with senior engineers on system architecture.",
+        logo: "/images/company-logos/diarium.png",
     },
+
 ];
 
 export default function Experience() {
@@ -83,6 +98,18 @@ export default function Experience() {
                                 {/* Content */}
                                 <div className={`ml-16 md:ml-0 md:w-1/2 ${index % 2 === 0 ? "md:pl-12" : "md:pr-12 text-left md:text-right"}`}>
                                     <div className="rounded-xl border border-slate-800 bg-slate-900 p-6 shadow-sm hover:shadow-md transition-shadow group">
+                                        {/* Company Logo */}
+                                        <div className={`mb-4 flex ${index % 2 === 0 ? "md:justify-start" : "justify-start md:justify-end"}`}>
+                                            <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-slate-800 p-2">
+                                                <Image
+                                                    src={exp.logo}
+                                                    alt={`${exp.company} logo`}
+                                                    fill
+                                                    className="object-contain"
+                                                />
+                                            </div>
+                                        </div>
+
                                         <span className="mb-2 block text-sm font-mono text-primary font-bold">
                                             {exp.period}
                                         </span>

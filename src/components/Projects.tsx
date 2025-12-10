@@ -108,20 +108,20 @@ function ProjectCard({ project }: { project: any }) {
 export default function Projects() {
     const projects = [
         {
-            title: "AI-Powered Analytics Dashboard",
+            title: "Traveloka",
             description:
                 "A comprehensive dashboard that uses predictive algorithms to forecast sales trends. Built for a retail client to optimize inventory management.",
             tags: ["Next.js", "Python", "TensorFlow", "D3.js"],
-            images: ["/images/project-dummy.png", "/images/project-dummy.png"],
+            images: ["/images/project/caliana-trave/1.png", "/images/project/caliana-trave/2.png"],
             demoLink: "#",
             repoLink: "#",
         },
         {
-            title: "Intelligent Content Generator",
+            title: "Caliana Prodia",
             description:
                 "SaaS platform allowing marketers to generate SEO-optimized blog posts using custom fine-tuned LLMs. Reduced content creation time by 70%.",
             tags: ["React", "OpenAI API", "Node.js", "Stripe"],
-            images: ["/images/project-dummy.png", "/images/project-dummy.png"],
+            images: ["/images/project/caliana-prodia/1.png", "/images/project/caliana-prodia/2.png"],
             demoLink: "#",
             repoLink: "#",
         },
@@ -130,7 +130,7 @@ export default function Projects() {
             description:
                 "Automated defect detection system for manufacturing lines. Implemented edge-deployed models for real-time inference.",
             tags: ["PyTorch", "FastAPI", "React Native", "MQTT"],
-            images: ["/images/project-dummy.png", "/images/project-dummy.png"],
+            images: ["/images/project/project-dummy.png", "/images/project/project-dummy.png"],
             demoLink: "#",
             repoLink: "#",
         },
@@ -139,7 +139,43 @@ export default function Projects() {
             description:
                 "High-performance recommendation engine for e-commerce platforms. Handles millions of requests with sub-50ms latency.",
             tags: ["Go", "gRPC", "Redis", "Docker"],
-            images: ["/images/project-dummy.png", "/images/project-dummy.png"],
+            images: ["/images/project/project-dummy.png", "/images/project/project-dummy.png"],
+            demoLink: "#",
+            repoLink: "#",
+        },
+        {
+            title: "Recommender System API",
+            description:
+                "High-performance recommendation engine for e-commerce platforms. Handles millions of requests with sub-50ms latency.",
+            tags: ["Go", "gRPC", "Redis", "Docker"],
+            images: ["/images/project/project-dummy.png", "/images/project/project-dummy.png"],
+            demoLink: "#",
+            repoLink: "#",
+        },
+        {
+            title: "Recommender System API",
+            description:
+                "High-performance recommendation engine for e-commerce platforms. Handles millions of requests with sub-50ms latency.",
+            tags: ["Go", "gRPC", "Redis", "Docker"],
+            images: ["/images/project/project-dummy.png", "/images/project/project-dummy.png"],
+            demoLink: "#",
+            repoLink: "#",
+        },
+        {
+            title: "Recommender System API",
+            description:
+                "High-performance recommendation engine for e-commerce platforms. Handles millions of requests with sub-50ms latency.",
+            tags: ["Go", "gRPC", "Redis", "Docker"],
+            images: ["/images/project/project-dummy.png", "/images/project/project-dummy.png"],
+            demoLink: "#",
+            repoLink: "#",
+        },
+        {
+            title: "Recommender System API",
+            description:
+                "High-performance recommendation engine for e-commerce platforms. Handles millions of requests with sub-50ms latency.",
+            tags: ["Go", "gRPC", "Redis", "Docker"],
+            images: ["/images/project/project-dummy.png", "/images/project/project-dummy.png"],
             demoLink: "#",
             repoLink: "#",
         },
