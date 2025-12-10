@@ -40,7 +40,7 @@ export default function Skills() {
     ];
 
     return (
-        <section id="skills" className="py-24 bg-slate-900">
+        <section id="skills" className="py-24 bg-slate-900 transition-colors duration-300">
             <div className="container mx-auto px-6">
                 <MotionWrapper>
                     <div className="mb-16 text-center">
@@ -55,7 +55,7 @@ export default function Skills() {
                     {skillCategories.map((category, index) => (
                         <MotionWrapper key={index} delay={index * 0.1}>
                             <div
-                                className="rounded-2xl border border-slate-800 bg-slate-950 p-8 transition-transform hover:-translate-y-1 hover:border-primary/30"
+                                className="rounded-2xl border border-slate-800 bg-slate-950 p-8 transition-transform hover:-translate-y-1 hover:border-primary/30 shadow-sm"
                             >
                                 <h3 className="mb-6 text-xl font-bold text-slate-50">
                                     {category.title}

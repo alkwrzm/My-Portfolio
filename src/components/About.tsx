@@ -3,7 +3,7 @@ import MotionWrapper from "@/components/MotionWrapper";
 
 export default function About() {
     return (
-        <section id="about" className="relative py-24 bg-slate-950">
+        <section id="about" className="relative py-24 bg-gradient-to-b from-slate-950 to-slate-900 transition-colors duration-300">
             <div className="container mx-auto px-6">
                 <MotionWrapper>
                     <div className="flex flex-col items-center text-center mb-16">
@@ -31,7 +31,7 @@ export default function About() {
 
                     <div className="grid grid-cols-1 gap-6">
                         <MotionWrapper delay={0.3}>
-                            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-primary/50 transition-colors">
+                            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-primary/50 transition-colors shadow-sm">
                                 <Terminal className="w-8 h-8 text-primary mb-4" />
                                 <h3 className="text-xl font-semibold text-slate-50 mb-2">Technical Fluency</h3>
                                 <p className="text-slate-400">
@@ -40,7 +40,7 @@ export default function About() {
                             </div>
                         </MotionWrapper>
                         <MotionWrapper delay={0.4}>
-                            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-primary/50 transition-colors">
+                            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-primary/50 transition-colors shadow-sm">
                                 <Cpu className="w-8 h-8 text-primary mb-4" />
                                 <h3 className="text-xl font-semibold text-slate-50 mb-2">AI Strategy</h3>
                                 <p className="text-slate-400">
@@ -49,7 +49,7 @@ export default function About() {
                             </div>
                         </MotionWrapper>
                         <MotionWrapper delay={0.5}>
-                            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-primary/50 transition-colors">
+                            <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 hover:border-primary/50 transition-colors shadow-sm">
                                 <Zap className="w-8 h-8 text-primary mb-4" />
                                 <h3 className="text-xl font-semibold text-slate-50 mb-2">Rapid Prototyping</h3>
                                 <p className="text-slate-400">

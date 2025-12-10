@@ -1,5 +1,6 @@
 "use client";
 
+
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
@@ -17,17 +18,18 @@ export default function Header() {
     }, []);
 
     const navLinks = [
-        { name: "About", href: "#about" },
-        { name: "Skills", href: "#skills" },
-        { name: "Projects", href: "#projects" },
-        { name: "Contact", href: "#contact" },
+        { name: "About", href: "/#about" },
+        { name: "Experience", href: "/#experience" },
+        { name: "Skills", href: "/#skills" },
+        { name: "Projects", href: "/#projects" },
+        { name: "Contact", href: "/#contact" },
     ];
 
     return (
         <header
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                    ? "bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4"
-                    : "bg-transparent py-6"
+                ? "bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4"
+                : "bg-transparent py-6"
                 }`}
         >
             <div className="container mx-auto px-6 flex items-center justify-between">
@@ -46,25 +48,30 @@ export default function Header() {
                             {link.name}
                         </Link>
                     ))}
-                    <Link
-                        href="#contact"
-                        className="px-5 py-2 rounded-full bg-primary/10 text-primary font-medium hover:bg-primary hover:text-slate-950 transition-all"
-                    >
-                        Hire Me
-                    </Link>
+
+                    <div className="flex items-center gap-4">
+                        <Link
+                            href="/#contact"
+                            className="px-5 py-2 rounded-full bg-primary/10 text-primary font-medium hover:bg-primary hover:text-slate-950 transition-all"
+                        >
+                            Hire Me
+                        </Link>
+                    </div>
                 </nav>
 
                 {/* Mobile Menu Button */}
-                <button
-                    className="md:hidden text-slate-50"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    {isMobileMenuOpen ? <X /> : <Menu />}
-                </button>
+                <div className="md:hidden flex items-center gap-4">
+                    <button
+                        className="text-slate-50"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                        {isMobileMenuOpen ? <X /> : <Menu />}
+                    </button>
+                </div>
 
                 {/* Mobile Nav */}
                 {isMobileMenuOpen && (
-                    <div className="absolute top-full left-0 right-0 bg-slate-950 border-b border-slate-800 p-6 md:hidden flex flex-col gap-4">
+                    <div className="absolute top-full left-0 right-0 bg-slate-950 border-b border-slate-800 p-6 md:hidden flex flex-col gap-4 shadow-lg">
                         {navLinks.map((link) => (
                             <Link
                                 key={link.name}

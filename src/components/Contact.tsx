@@ -4,7 +4,7 @@ import MotionWrapper from "@/components/MotionWrapper";
 
 export default function Contact() {
     return (
-        <section id="contact" className="py-24 bg-slate-900">
+        <section id="contact" className="py-24 bg-slate-900 transition-colors duration-300">
             <div className="container mx-auto px-6">
                 <MotionWrapper>
                     <div className="max-w-4xl mx-auto text-center mb-16">
@@ -75,7 +75,7 @@ export default function Contact() {
 
                     {/* Contact Form */}
                     <MotionWrapper delay={0.4}>
-                        <form className="space-y-6 bg-slate-950 p-8 rounded-2xl border border-slate-800">
+                        <form className="space-y-6 bg-slate-950 p-8 rounded-2xl border border-slate-800 shadow-sm">
                             <div className="space-y-2">
                                 <label htmlFor="name" className="text-sm font-medium text-slate-300">
                                     Name

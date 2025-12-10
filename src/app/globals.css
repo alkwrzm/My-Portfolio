@@ -6,7 +6,12 @@
   --color-primary: #00FFC2;
 }
 
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 body {
   @apply bg-slate-950 text-slate-50 antialiased;
 }
-

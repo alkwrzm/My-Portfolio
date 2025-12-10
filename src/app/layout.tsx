@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-slate-950 text-slate-50`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <Header />
         {children}
