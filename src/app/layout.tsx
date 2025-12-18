@@ -18,8 +18,13 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-    title: "AI Product Manager | Dark Mode Trainer",
+    title: "Alkwarizmi | AI Product Manager & Developer",
     description: "Cyber-Noir Portfolio of an AI Product Manager & Prototyping Specialist.",
+    icons: {
+        icon: '/favicon.png',
+        shortcut: '/favicon.png',
+        apple: '/favicon.png',
+    },
 };
 
 export default function RootLayout({
