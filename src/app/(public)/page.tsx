@@ -14,10 +14,14 @@ export default async function Home() {
         orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
     });
 
+    const experiences = await prisma.experience.findMany({
+        orderBy: [{ order: 'asc' }, { startDate: 'desc' }],
+    });
+
     return (
         <div className="flex flex-col min-h-screen">
             <Hero />
-            <Experience />
+            <Experience experiences={experiences} />
             <Projects initialProjects={projects} />
             <Certifications />
 
