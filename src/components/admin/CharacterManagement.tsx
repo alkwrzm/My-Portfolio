@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
+import { useRouter } from "next/navigation"
 import { createCharacter, activateCharacter, deleteCharacter } from "@/actions/character-actions"
 import { Upload, Trash2, CheckCircle, Circle, Box } from "lucide-react"
 
@@ -18,19 +19,28 @@ export function CharacterManagement({
 }: {
     initialCharacters: Character[]
 }) {
-    // In a real app we might use optimistic updates, but for now we rely on router refresh via server action
-    // However, props don't auto-update unless parent re-renders. 
-    // Server Actions w/ revalidatePath usually trigger a re-fetch of the current route.
-
+    const router = useRouter()
     const [isUploading, setIsUploading] = useState(false)
+    const formRef = useRef<HTMLFormElement>(null)
 
-    async function handleSubmit(formData: FormData) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
         setIsUploading(true)
+        const formData = new FormData(e.currentTarget)
         await createCharacter(formData)
         setIsUploading(false)
-        // Reset form?
-        const form = document.getElementById("char-form") as HTMLFormElement
-        form?.reset()
+        formRef.current?.reset()
+        router.refresh()
+    }
+
+    const handleActivate = async (id: string) => {
+        await activateCharacter(id)
+        router.refresh()
+    }
+
+    const handleDelete = async (id: string) => {
+        await deleteCharacter(id)
+        router.refresh()
     }
 
     return (
@@ -40,7 +50,7 @@ export function CharacterManagement({
                     <Box className="w-5 h-5 text-purple-500" />
                     Add New Character
                 </h2>
-                <form id="char-form" action={handleSubmit} className="flex flex-col gap-4 max-w-lg">
+                <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-lg">
                     <div className="space-y-1">
                         <label className="text-sm text-zinc-400">Character Name</label>
                         <input name="name" type="text" required
@@ -64,7 +74,7 @@ export function CharacterManagement({
                         </div>
                     </div>
 
-                    <button disabled={isUploading} className="mt-2 bg-white text-black font-semibold py-2 rounded hover:bg-zinc-200 transition-colors disabled:opacity-50">
+                    <button type="submit" disabled={isUploading} className="mt-2 bg-white text-black font-semibold py-2 rounded hover:bg-zinc-200 transition-colors disabled:opacity-50">
                         {isUploading ? "Uploading..." : "Upload Character"}
                     </button>
                 </form>
@@ -84,13 +94,13 @@ export function CharacterManagement({
                                     <p className="text-xs text-zinc-500 truncate max-w-[150px]">{char.modelUrl}</p>
                                 </div>
                                 <div className="flex gap-2">
-                                    <button onClick={() => activateCharacter(char.id)}
+                                    <button onClick={() => handleActivate(char.id)}
                                         className="p-2 rounded-full hover:bg-zinc-800 transition-colors"
                                         title={char.active ? "Active" : "Activate"}
                                     >
                                         {char.active ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Circle className="w-5 h-5 text-zinc-600 group-hover:text-zinc-400" />}
                                     </button>
-                                    <button onClick={() => deleteCharacter(char.id)}
+                                    <button onClick={() => handleDelete(char.id)}
                                         className="p-2 rounded-full hover:bg-red-500/20 text-zinc-600 hover:text-red-500 transition-colors"
                                     >
                                         <Trash2 className="w-5 h-5" />

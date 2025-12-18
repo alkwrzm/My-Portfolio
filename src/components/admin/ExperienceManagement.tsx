@@ -2,7 +2,8 @@
 
 import { createExperience, updateExperience, deleteExperience, reorderExperiences } from "@/actions/experience-actions"
 import { Trash2, Plus, Calendar, Briefcase, Edit2, X, GripVertical } from "lucide-react"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import {
     DndContext,
     closestCenter,
@@ -32,9 +33,15 @@ type Experience = {
 }
 
 export function ExperienceManagement({ experiences: initialExperiences }: { experiences: Experience[] }) {
+    const router = useRouter()
     const [experiences, setExperiences] = useState(initialExperiences)
     const [editingId, setEditingId] = useState<string | null>(null)
     const formRef = useRef<HTMLFormElement>(null)
+
+    // Sync with server data when it changes
+    useEffect(() => {
+        setExperiences(initialExperiences)
+    }, [initialExperiences])
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -56,6 +63,7 @@ export function ExperienceManagement({ experiences: initialExperiences }: { expe
             await createExperience(formData)
         }
         formRef.current?.reset()
+        router.refresh()
     }
 
     const startEditing = (exp: Experience) => {
@@ -93,6 +101,11 @@ export function ExperienceManagement({ experiences: initialExperiences }: { expe
 
             await reorderExperiences(updates)
         }
+    }
+
+    const handleDelete = async (id: string) => {
+        await deleteExperience(id)
+        router.refresh()
     }
 
     return (
@@ -168,7 +181,7 @@ export function ExperienceManagement({ experiences: initialExperiences }: { expe
                                     experience={exp}
                                     isEditing={editingId === exp.id}
                                     onEdit={startEditing}
-                                    onDelete={deleteExperience}
+                                    onDelete={handleDelete}
                                 />
                             ))}
                         </div>

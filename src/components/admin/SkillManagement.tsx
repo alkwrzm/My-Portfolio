@@ -2,7 +2,8 @@
 
 import { createSkill, updateSkill, deleteSkill, reorderSkills } from "@/actions/cms-actions"
 import { Trash2, Plus, Edit2, X, ExternalLink, GripVertical } from "lucide-react"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import {
     DndContext,
     closestCenter,
@@ -31,9 +32,14 @@ type Skill = {
 }
 
 export function SkillManagement({ skills: initialSkills }: { skills: Skill[] }) {
+    const router = useRouter()
     const [skills, setSkills] = useState(initialSkills)
     const [editingId, setEditingId] = useState<string | null>(null)
     const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        setSkills(initialSkills)
+    }, [initialSkills])
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -50,6 +56,7 @@ export function SkillManagement({ skills: initialSkills }: { skills: Skill[] }) 
             await createSkill(formData)
         }
         formRef.current?.reset()
+        router.refresh()
     }
 
     const startEditing = (skill: Skill) => {
@@ -86,6 +93,11 @@ export function SkillManagement({ skills: initialSkills }: { skills: Skill[] }) 
 
             await reorderSkills(updates)
         }
+    }
+
+    const handleDelete = async (id: string) => {
+        await deleteSkill(id)
+        router.refresh()
     }
 
     return (
@@ -149,7 +161,7 @@ export function SkillManagement({ skills: initialSkills }: { skills: Skill[] }) 
                                     skill={skill}
                                     isEditing={editingId === skill.id}
                                     onEdit={startEditing}
-                                    onDelete={deleteSkill}
+                                    onDelete={handleDelete}
                                 />
                             ))}
                         </div>

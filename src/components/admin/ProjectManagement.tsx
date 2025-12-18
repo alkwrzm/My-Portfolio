@@ -2,7 +2,8 @@
 
 import { createProject, updateProject, deleteProject, reorderProjects } from "@/actions/cms-actions"
 import { Trash2, Plus, ExternalLink, Image as ImageIcon, Edit2, X, ChevronLeft, ChevronRight, GripVertical } from "lucide-react"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Project } from "@prisma/client"
 import {
     DndContext,
@@ -23,9 +24,14 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 
 export function ProjectManagement({ projects: initialProjects }: { projects: Project[] }) {
+    const router = useRouter()
     const [projects, setProjects] = useState(initialProjects)
     const [editingId, setEditingId] = useState<string | null>(null)
     const formRef = useRef<HTMLFormElement>(null)
+
+    useEffect(() => {
+        setProjects(initialProjects)
+    }, [initialProjects])
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -42,6 +48,7 @@ export function ProjectManagement({ projects: initialProjects }: { projects: Pro
             await createProject(formData)
         }
         formRef.current?.reset()
+        router.refresh()
     }
 
     const startEditing = (proj: Project) => {
@@ -79,6 +86,11 @@ export function ProjectManagement({ projects: initialProjects }: { projects: Pro
 
             await reorderProjects(updates)
         }
+    }
+
+    const handleDelete = async (id: string) => {
+        await deleteProject(id)
+        router.refresh()
     }
 
     return (
@@ -146,7 +158,7 @@ export function ProjectManagement({ projects: initialProjects }: { projects: Pro
                                     project={proj}
                                     isEditing={editingId === proj.id}
                                     onEdit={startEditing}
-                                    onDelete={deleteProject}
+                                    onDelete={handleDelete}
                                 />
                             ))}
                         </div>
