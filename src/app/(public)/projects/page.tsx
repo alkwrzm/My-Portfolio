@@ -4,6 +4,8 @@ import { ArrowLeft, ExternalLink } from "lucide-react"
 import { Project } from "@prisma/client"
 import ImageCarousel from "@/components/ui/ImageCarousel"
 
+export const dynamic = 'force-dynamic';
+
 // This page is a Server Component
 export default async function AllProjectsPage() {
     const projects: Project[] = await prisma.project.findMany({

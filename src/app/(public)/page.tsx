@@ -6,6 +6,8 @@ import Contact from "@/components/sections/Contact";
 import HelperBot from "@/components/HelperBot";
 import { prisma } from "@/lib/db";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
     const projects = await prisma.project.findMany({
         take: 4,
