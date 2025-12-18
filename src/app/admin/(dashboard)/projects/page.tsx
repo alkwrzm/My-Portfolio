@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db"
 import { ProjectManagement } from "@/components/admin/ProjectManagement"
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProjectsPage() {
     const projects = await prisma.project.findMany({ orderBy: [{ order: 'asc' }, { createdAt: 'desc' }] })
     return (

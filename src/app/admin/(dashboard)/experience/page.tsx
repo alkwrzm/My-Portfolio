@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db"
 import { ExperienceManagement } from "@/components/admin/ExperienceManagement"
 
+export const dynamic = 'force-dynamic';
+
 export default async function ExperiencePage() {
     const experiences = await prisma.experience.findMany({
         orderBy: { startDate: 'desc' }

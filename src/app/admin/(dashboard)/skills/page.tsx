@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db"
 import { SkillManagement } from "@/components/admin/SkillManagement"
 
+export const dynamic = 'force-dynamic';
+
 export default async function SkillsPage() {
     const skills = await prisma.skill.findMany({
         where: {
