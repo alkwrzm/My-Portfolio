@@ -14,6 +14,7 @@ export async function createSkill(formData: FormData) {
         data: { name, category, proficiency, link } as any
     })
     revalidatePath("/admin/skills")
+    revalidatePath("/")
 }
 
 export async function updateSkill(id: string, formData: FormData) {
@@ -27,11 +28,13 @@ export async function updateSkill(id: string, formData: FormData) {
         data: { name, category, proficiency, link } as any
     })
     revalidatePath("/admin/skills")
+    revalidatePath("/")
 }
 
 export async function deleteSkill(id: string) {
     await prisma.skill.delete({ where: { id } })
     revalidatePath("/admin/skills")
+    revalidatePath("/")
 }
 
 export async function reorderSkills(items: { id: string, order: number }[]) {
@@ -96,6 +99,8 @@ export async function createProject(formData: FormData) {
         } as any
     })
     revalidatePath("/admin/projects")
+    revalidatePath("/")
+    revalidatePath("/projects")
 }
 
 export async function updateProject(id: string, formData: FormData) {
@@ -140,11 +145,15 @@ export async function updateProject(id: string, formData: FormData) {
         data: data as any
     })
     revalidatePath("/admin/projects")
+    revalidatePath("/")
+    revalidatePath("/projects")
 }
 
 export async function deleteProject(id: string) {
     await prisma.project.delete({ where: { id } })
     revalidatePath("/admin/projects")
+    revalidatePath("/")
+    revalidatePath("/projects")
 }
 
 export async function reorderProjects(items: { id: string, order: number }[]) {

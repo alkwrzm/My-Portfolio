@@ -22,6 +22,7 @@ export async function createExperience(formData: FormData) {
             }
         })
         revalidatePath("/admin/experience")
+        revalidatePath("/")
         return { success: true }
     } catch (e) {
         return { success: false, error: "Failed to create" }
@@ -48,6 +49,7 @@ export async function updateExperience(id: string, formData: FormData) {
             }
         })
         revalidatePath("/admin/experience")
+        revalidatePath("/")
         return { success: true }
     } catch (e) {
         return { success: false, error: "Failed to update" }
@@ -57,6 +59,7 @@ export async function updateExperience(id: string, formData: FormData) {
 export async function deleteExperience(id: string) {
     await prisma.experience.delete({ where: { id } })
     revalidatePath("/admin/experience")
+    revalidatePath("/")
 }
 
 export async function reorderExperiences(items: { id: string, order: number }[]) {
