@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Character {
+  id        String   @id @default(cuid())
+  name      String
+  modelUrl  String
+  imageUrl  String?
+  active    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Experience {
+  id          String   @id @default(cuid())
+  title       String
+  company     String
+  startDate   DateTime
+  endDate     DateTime? // Null means "Present"
+  description String
+  order       Int      @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Skill {
+  id          String   @id @default(cuid())
+  name        String
+  category    String   // e.g., "Frontend", "Backend", "Tools"
+  proficiency Int      @default(0) // 0-100
+  link        String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  tags        String   // Comma separated or JSON string
+  link        String?
+  images      String[]
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

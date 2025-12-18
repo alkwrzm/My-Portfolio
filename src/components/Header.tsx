@@ -1,90 +1,77 @@
 "use client";
 
-
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import { NAV_LINKS, SITE_CONFIG } from "@/lib/constants";
 
 export default function Header() {
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    const navLinks = [
-        { name: "About", href: "/#about" },
-        { name: "Experience", href: "/#experience" },
-        { name: "Skills", href: "/#skills" },
-        { name: "Projects", href: "/#projects" },
-        { name: "Contact", href: "/#contact" },
-    ];
+    const pathname = usePathname();
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                ? "bg-slate-950/80 backdrop-blur-md border-b border-slate-800 py-4"
-                : "bg-transparent py-6"
-                }`}
-        >
-            <div className="container mx-auto px-6 flex items-center justify-between">
-                <Link href="/" className="text-xl font-bold text-slate-50">
-                    Al<span className="text-primary">.Portfolio</span>
+        <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+            <div className="container mx-auto px-6 h-16 flex items-center justify-between">
+                {/* Logo */}
+                <Link href="/" className="group relative flex items-center gap-2">
+                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center overflow-hidden">
+                        <div className="w-5 h-5 bg-black rotate-45 group-hover:rotate-90 transition-transform duration-500" />
+                    </div>
+                    <span className="font-display font-bold text-xl tracking-tight">
+                        {SITE_CONFIG.name}
+                        <span className="text-primary animate-pulse">_</span>
+                    </span>
                 </Link>
 
                 {/* Desktop Nav */}
                 <nav className="hidden md:flex items-center gap-8">
-                    {navLinks.map((link) => (
+                    {NAV_LINKS.map((link) => (
                         <Link
-                            key={link.name}
+                            key={link.href}
                             href={link.href}
-                            className="text-sm font-medium text-slate-300 hover:text-primary transition-colors"
+                            className={cn(
+                                "text-sm font-medium transition-colors hover:text-primary relative group",
+                                pathname === link.href ? "text-primary" : "text-muted-foreground"
+                            )}
+                        >
+                            <span className="relative z-10">{link.name}</span>
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                        </Link>
+                    ))}
+                </nav>
+
+                {/* Mobile Toggle */}
+                <button
+                    className="md:hidden p-2 text-muted-foreground hover:text-foreground"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    {isOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
+
+            {/* Mobile Menu */}
+            {isOpen && (
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="md:hidden absolute top-16 left-0 right-0 border-b border-white/5 bg-background/95 backdrop-blur-xl p-6 flex flex-col gap-4"
+                >
+                    {NAV_LINKS.map((link) => (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
+                            onClick={() => setIsOpen(false)}
                         >
                             {link.name}
                         </Link>
                     ))}
-
-                    <div className="flex items-center gap-4">
-                        <Link
-                            href="/#contact"
-                            className="px-5 py-2 rounded-full bg-primary/10 text-primary font-medium hover:bg-primary hover:text-slate-950 transition-all"
-                        >
-                            Hire Me!
-                        </Link>
-                    </div>
-                </nav>
-
-                {/* Mobile Menu Button */}
-                <div className="md:hidden flex items-center gap-4">
-                    <button
-                        className="text-slate-50"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {isMobileMenuOpen ? <X /> : <Menu />}
-                    </button>
-                </div>
-
-                {/* Mobile Nav */}
-                {isMobileMenuOpen && (
-                    <div className="absolute top-full left-0 right-0 bg-slate-950 border-b border-slate-800 p-6 md:hidden flex flex-col gap-4 shadow-lg">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                                className="text-base font-medium text-slate-300 hover:text-primary transition-colors"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                {link.name}
-                            </Link>
-                        ))}
-                    </div>
-                )}
-            </div>
+                </motion.div>
+            )}
         </header>
     );
 }

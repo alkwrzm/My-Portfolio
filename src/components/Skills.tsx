@@ -1,4 +1,6 @@
 import MotionWrapper from "@/components/MotionWrapper";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Skills() {
     const skillCategories = [
@@ -54,23 +56,26 @@ export default function Skills() {
                 <div className="grid gap-8 md:grid-cols-3">
                     {skillCategories.map((category, index) => (
                         <MotionWrapper key={index} delay={index * 0.1}>
-                            <div
-                                className="rounded-2xl border border-slate-800 bg-slate-950 p-8 transition-transform hover:-translate-y-1 hover:border-primary/30 shadow-sm"
-                            >
-                                <h3 className="mb-6 text-xl font-bold text-slate-50">
-                                    {category.title}
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {category.skills.map((skill, skillIndex) => (
-                                        <span
-                                            key={skillIndex}
-                                            className="rounded-full bg-slate-900 px-3 py-1.5 text-sm font-medium text-primary shadow-sm ring-1 ring-slate-800"
-                                        >
-                                            {skill}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
+                            <Card className="bg-slate-950 border-slate-800 transition-transform hover:-translate-y-1 hover:border-primary/30">
+                                <CardHeader>
+                                    <CardTitle className="text-slate-50">
+                                        {category.title}
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex flex-wrap gap-2">
+                                        {category.skills.map((skill, skillIndex) => (
+                                            <Badge
+                                                key={skillIndex}
+                                                variant="secondary"
+                                                className="bg-slate-900 text-primary ring-1 ring-slate-800"
+                                            >
+                                                {skill}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
                         </MotionWrapper>
                     ))}
                 </div>
