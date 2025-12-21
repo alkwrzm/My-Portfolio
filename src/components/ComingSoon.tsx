@@ -1,13 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
+
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Github, Linkedin, Twitter, Rocket, Mail } from "lucide-react";
+import { Github, Linkedin, Instagram, Rocket, Mail, Bot } from "lucide-react";
+import Hero from "@/components/sections/Hero";
 
 export default function ComingSoon() {
     const [email, setEmail] = useState("");
+    const [clickCount, setClickCount] = useState(0);
+    const [isUnlocked, setIsUnlocked] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -17,8 +21,30 @@ export default function ComingSoon() {
         setEmail("");
     };
 
+    const handleEasterEggClick = () => {
+        setClickCount(prev => {
+            const newCount = prev + 1;
+            if (newCount >= 5) {
+                setIsUnlocked(true);
+            }
+            return newCount;
+        });
+    };
+
+    if (isUnlocked) {
+        return (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+            >
+                <Hero />
+            </motion.div>
+        );
+    }
+
     return (
-        <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0a0a0a] text-white">
+        <div className="relative min-h-screen w-full flex flex-col overflow-hidden bg-[#0a0a0a] text-white font-sans">
             {/* Background Animated Gradients */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10vh] left-[-10vw] w-[50vw] h-[50vw] rounded-full bg-purple-600/10 blur-[130px]" />
@@ -33,8 +59,7 @@ export default function ComingSoon() {
                 />
             </div>
 
-            <div className="relative z-10 container mx-auto px-4 flex flex-col items-center text-center">
-
+            <main className="flex-grow flex flex-col items-center justify-center relative z-10 container mx-auto px-4 py-12 md:py-0">
                 {/* Badge */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -56,7 +81,7 @@ export default function ComingSoon() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-                    className="mb-6 relative"
+                    className="mb-6 relative text-center"
                 >
                     <h1 className="text-5xl md:text-8xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/50 pb-2">
                         COMING SOON
@@ -70,7 +95,7 @@ export default function ComingSoon() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.3 }}
-                    className="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 leading-relaxed"
+                    className="text-lg md:text-xl text-gray-400 max-w-2xl mb-12 leading-relaxed text-center"
                 >
                     We are currently redesigning our digital presence to bring you a
                     <span className="text-white font-medium"> premium</span> and <span className="text-white font-medium">interactive</span> portfolio experience.
@@ -112,9 +137,9 @@ export default function ComingSoon() {
                     className="flex items-center gap-6"
                 >
                     {[
-                        { icon: Github, href: "https://github.com/alkwrzm" }, // Assuming based on user path "My-Portfolio"? Or just placeholder
-                        { icon: Linkedin, href: "#" },
-                        { icon: Twitter, href: "#" },
+                        { icon: Github, href: "https://github.com/alkwrzm" },
+                        { icon: Linkedin, href: "https://www.linkedin.com/in/mohammed-al" },
+                        { icon: Instagram, href: "https://instagram.com/alkwrzm" },
                     ].map((Social, index) => (
                         <a
                             key={index}
@@ -125,17 +150,27 @@ export default function ComingSoon() {
                         </a>
                     ))}
                 </motion.div>
+            </main>
 
-                {/* Footer Credit */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 1 }}
-                    className="absolute bottom-6 text-sm text-gray-600"
-                >
-                    &copy; {new Date().getFullYear()} Alkwarizmi. All rights reserved.
-                </motion.div>
-            </div>
+            {/* Footer with Easter Egg */}
+            <motion.footer
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 1 }}
+                className="relative z-10 w-full py-6 flex flex-col items-center justify-center text-sm text-gray-600 border-t border-white/5 bg-[#0a0a0a]/50 backdrop-blur-sm"
+            >
+                <div className="flex items-center gap-2">
+                    <span>&copy; {new Date().getFullYear()} Alkwarizmi. All rights reserved.</span>
+                    {/* Easter Egg Trigger */}
+                    <div
+                        className="p-1 cursor-pointer opacity-20 hover:opacity-100 transition-all active:scale-95"
+                        onClick={handleEasterEggClick}
+                        title={clickCount > 0 ? `${5 - clickCount} clicks to unlock` : "System Helper"}
+                    >
+                        <Bot className={`w-4 h-4 ${clickCount > 0 ? "text-purple-500 animate-pulse" : ""}`} />
+                    </div>
+                </div>
+            </motion.footer>
         </div>
     );
 }
