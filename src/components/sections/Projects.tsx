@@ -130,7 +130,7 @@ export default function Projects({ initialProjects }: { initialProjects: Project
 
                 <div
                     ref={scrollRef}
-                    className="flex gap-8 overflow-x-auto no-scrollbar pl-8 md:pl-0 items-center"
+                    className="flex gap-4 md:gap-8 overflow-x-auto no-scrollbar pl-4 md:pl-0 items-center"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                     {projects.map((project, i) => (
@@ -148,7 +148,7 @@ function LargeProjectCard({ project }: { project: Project }) {
             href={project.link || "#"}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex-shrink-0 w-[85vw] md:w-[600px] h-[50vh] md:h-[450px] rounded-[2.5rem] overflow-hidden border border-zinc-800 bg-zinc-900/50 hover:border-primary/50 transition-all duration-500 snap-center"
+            className="group relative flex-shrink-0 w-[90vw] md:w-[600px] h-[40vh] md:h-[450px] rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border border-zinc-800 bg-zinc-900/50 hover:border-primary/50 transition-all duration-500 snap-center"
         >
             {/* Background Image */}
             {project.images && project.images.length > 0 ? (
@@ -180,10 +180,10 @@ function LargeProjectCard({ project }: { project: Project }) {
                         </div>
                     </div>
 
-                    <h3 className="text-2xl md:text-5xl font-bold font-display text-white mb-3 leading-tight tracking-tight">
+                    <h3 className="text-xl md:text-5xl font-bold font-display text-white mb-2 md:mb-3 leading-tight tracking-tight">
                         {project.title}
                     </h3>
-                    <p className="text-zinc-300 text-sm md:text-base line-clamp-2 md:line-clamp-3 max-w-xl font-light leading-relaxed group-hover:text-white transition-colors">
+                    <p className="text-zinc-300 text-xs md:text-base line-clamp-2 md:line-clamp-3 max-w-xl font-light leading-relaxed group-hover:text-white transition-colors">
                         {project.description}
                     </p>
 
