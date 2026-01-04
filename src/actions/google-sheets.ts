@@ -1,42 +1,47 @@
-"use server"
+"use server";
+
+import { google } from "googleapis";
 
 export async function submitToGoogleSheets(formData: FormData) {
-    const scriptUrl = process.env.GOOGLE_SHEETS_SCRIPT_URL;
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const message = formData.get("message") as string;
+    const sheetId = process.env.GOOGLE_SHEET_ID;
+    const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'); // Handle newlines in env var
 
-    if (!scriptUrl) {
-        console.warn("GOOGLE_SHEETS_SCRIPT_URL is not defined. Skipping Google Sheets submission.");
-        return { success: false, error: "Configuration missing" };
+    if (!sheetId || !clientEmail || !privateKey) {
+        console.error("Missing Google Sheets credentials");
+        return { success: false, error: "Server configuration error" };
     }
 
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const phone = formData.get('phone') as string || '';
-    const message = formData.get('message') as string;
-
     try {
-        const response = await fetch(scriptUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
+        const auth = new google.auth.GoogleAuth({
+            credentials: {
+                client_email: clientEmail,
+                private_key: privateKey,
             },
-            body: JSON.stringify({
-                name,
-                email,
-                phone,
-                message,
-                timestamp: new Date().toISOString(),
-            }),
+            scopes: [
+                "https://www.googleapis.com/auth/drive",
+                "https://www.googleapis.com/auth/drive.file",
+                "https://www.googleapis.com/auth/spreadsheets",
+            ],
         });
 
-        if (!response.ok) {
-            throw new Error(`Google Sheets API responded with ${response.status}`);
-        }
+        const sheets = google.sheets({ version: "v4", auth });
 
-        const result = await response.json();
-        return { success: true, data: result };
+        await sheets.spreadsheets.values.append({
+            spreadsheetId: sheetId,
+            range: "A1", // Starts appending from the first sheet
+            valueInputOption: "USER_ENTERED",
+            requestBody: {
+                values: [[new Date().toISOString(), name, email, message]],
+            },
+        });
 
+        return { success: true };
     } catch (error) {
-        console.error('Error submitting to Google Sheets:', error);
-        return { success: false, error: 'Failed to submit to Google Sheets' };
+        console.error("Error submitting to Google Sheets:", error);
+        return { success: false, error: "Failed to submit to Google Sheets" };
     }
 }
