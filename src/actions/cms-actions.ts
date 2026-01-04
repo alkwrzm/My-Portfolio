@@ -149,6 +149,22 @@ export async function updateProject(id: string, formData: FormData) {
     revalidatePath("/projects")
 }
 
+export async function deleteProjectImage(projectId: string, imageUrl: string) {
+    const project = await prisma.project.findUnique({ where: { id: projectId } })
+    if (!project) return
+
+    const updatedImages = project.images.filter((img: string) => img !== imageUrl)
+
+    await prisma.project.update({
+        where: { id: projectId },
+        data: { images: updatedImages }
+    })
+
+    revalidatePath("/admin/projects")
+    revalidatePath("/")
+    revalidatePath("/projects")
+}
+
 export async function deleteProject(id: string) {
     await prisma.project.delete({ where: { id } })
     revalidatePath("/admin/projects")

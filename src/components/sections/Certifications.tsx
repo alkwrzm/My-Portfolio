@@ -15,7 +15,7 @@ export default async function Certifications() {
         <section id="certifications" className="py-24 relative">
             <div className="container mx-auto px-6 text-center">
                 <h2 className="text-3xl font-display font-bold mb-12">
-                    GYM <span className="text-secondary">BADGES</span>
+                    ACQUIRED <span className="text-secondary">BADGES</span>
                 </h2>
 
                 <div className="flex flex-wrap justify-center gap-6">

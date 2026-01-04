@@ -47,13 +47,11 @@ export default function Hero() {
                     >
                         <TypeAnimation
                             sequence={[
+                                "Fullstack Vibe-Coder",
+                                1000,
                                 "Product Manager",
                                 1000,
                                 "AI Specialist",
-                                1000,
-                                "Digital Handler",
-                                1000,
-                                "Fullstack Vibe-Coder",
                                 1000,
                             ]}
                             wrapper="span"
@@ -71,7 +69,7 @@ export default function Hero() {
                             className="rounded-full px-8 py-6 text-lg bg-white text-black hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300 hover:scale-105"
                             onClick={() => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' })}
                         >
-                            Start Encounter <ArrowRight className="ml-2 w-5 h-5" />
+                            Start Explore <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
                     </div>
                 </div>

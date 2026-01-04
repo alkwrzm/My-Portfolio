@@ -1,6 +1,6 @@
 "use client"
 
-import { createProject, updateProject, deleteProject, reorderProjects } from "@/actions/cms-actions"
+import { createProject, updateProject, deleteProject, reorderProjects, deleteProjectImage } from "@/actions/cms-actions"
 import { Trash2, Plus, ExternalLink, Image as ImageIcon, Edit2, X, ChevronLeft, ChevronRight, GripVertical } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
@@ -28,6 +28,9 @@ export function ProjectManagement({ projects: initialProjects }: { projects: Pro
     const [projects, setProjects] = useState(initialProjects)
     const [editingId, setEditingId] = useState<string | null>(null)
     const formRef = useRef<HTMLFormElement>(null)
+
+    // Derived active project
+    const activeProject = editingId ? projects.find(p => p.id === editingId) : null
 
     useEffect(() => {
         setProjects(initialProjects)
@@ -68,6 +71,13 @@ export function ProjectManagement({ projects: initialProjects }: { projects: Pro
         formRef.current?.reset()
     }
 
+    const handleDeleteImage = async (projectId: string, imageUrl: string) => {
+        if (confirm("Are you sure you want to delete this image?")) {
+            await deleteProjectImage(projectId, imageUrl)
+            router.refresh()
+        }
+    }
+
     const handleDragEnd = async (event: DragEndEvent) => {
         const { active, over } = event
 
@@ -89,8 +99,10 @@ export function ProjectManagement({ projects: initialProjects }: { projects: Pro
     }
 
     const handleDelete = async (id: string) => {
-        await deleteProject(id)
-        router.refresh()
+        if (confirm("Are you sure you want to delete this project?")) {
+            await deleteProject(id)
+            router.refresh()
+        }
     }
 
     return (
@@ -126,10 +138,34 @@ export function ProjectManagement({ projects: initialProjects }: { projects: Pro
                             <label className="text-sm text-zinc-400">Project Link</label>
                             <input name="link" type="url" placeholder="https://github.com/..." className="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-white" />
                         </div>
+
                         <div className="space-y-1">
                             <label className="text-sm text-zinc-400">Images (Select Multiple) {editingId && "(Appends to existing)"}</label>
                             <input name="images" type="file" accept="image/*" multiple className="w-full text-sm text-white" />
                         </div>
+
+                        {/* Existing Images Grid */}
+                        {editingId && activeProject?.images && activeProject.images.length > 0 && (
+                            <div className="space-y-2 mt-2">
+                                <label className="text-sm text-zinc-400">Current Images</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {activeProject.images.map((img, idx) => (
+                                        <div key={idx} className="relative group aspect-video bg-zinc-950 rounded overflow-hidden border border-zinc-800">
+                                            <img src={img} alt={`Project ${idx}`} className="w-full h-full object-cover" />
+                                            <button
+                                                type="button"
+                                                onClick={() => handleDeleteImage(activeProject.id, img)}
+                                                className="absolute top-1 right-1 bg-black/50 p-1.5 rounded-full hover:bg-red-500 text-white opacity-0 group-hover:opacity-100 transition-all backdrop-blur-sm"
+                                                title="Delete Image"
+                                            >
+                                                <Trash2 className="w-3.5 h-3.5" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                         <button className={`font-semibold py-2 rounded transition-colors ${editingId ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'bg-white hover:bg-zinc-200 text-black'}`}>
                             {editingId ? "Update Project" : "Save Project"}
                         </button>

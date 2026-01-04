@@ -1,5 +1,7 @@
 
 import SmoothScroll from "@/components/SmoothScroll";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function PublicLayout({
     children,
@@ -8,9 +10,11 @@ export default function PublicLayout({
 }) {
     return (
         <SmoothScroll>
+            <Header />
             <main className="min-h-screen relative overflow-hidden">
                 {children}
             </main>
+            <Footer />
         </SmoothScroll>
     );
 }

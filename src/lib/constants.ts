@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-    name: "PM.Portfolio",
+    name: "Portfolio",
     description: "AI Product Manager & Prototyping Specialist Portfolio",
     url: "https://portfolio.com",
 };

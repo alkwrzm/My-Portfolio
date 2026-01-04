@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { sendContactEmail } from "@/actions/email-actions";
+import { submitToGoogleSheets } from "@/actions/google-sheets";
 
 const formSchema = z.object({
     name: z.string().min(2, "Name is too short"),
@@ -40,15 +41,20 @@ export default function Contact() {
         if (data.phone) formData.append('phone', data.phone);
         formData.append('message', data.message);
 
-        // Send email
-        const result = await sendContactEmail(formData);
+        // Send email and Submit to Sheets in parallel
+        const [emailResult, sheetResult] = await Promise.all([
+            sendContactEmail(formData),
+            submitToGoogleSheets(formData)
+        ]);
 
-        if (result.success) {
+        // We consider it a success if at least the email works (Sheets is secondary)
+        if (emailResult.success) {
             setStatus("caught");
             reset();
             // Reset after 3 seconds
             setTimeout(() => setStatus("idle"), 3000);
         } else {
+            console.error("Email failed:", emailResult.error);
             setStatus("error");
             // Reset error after 3 seconds
             setTimeout(() => setStatus("idle"), 3000);
@@ -63,13 +69,13 @@ export default function Contact() {
                         CONTINUE?
                     </h2>
                     <p className="text-muted-foreground">
-                        Insert message to start a new game.
+                        Insert message to start a new journey with me.
                     </p>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Trainer Name</Label>
+                        <Label htmlFor="name">Name</Label>
                         <Input id="name" {...register("name")} className="bg-white/5 border-white/10 focus:border-primary/50" />
                         {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
                     </div>
